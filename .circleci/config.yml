@@ -1,0 +1,26 @@
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: cimg/node:24.15
+      - image: mongo:7.0
+
+    environment:
+      MONGODB_URI: mongodb://localhost:27017/my-blog
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install Dependencies
+          command: npm install
+
+      - run:
+          name: Run Tests
+          command: npm test
+
+workflows:
+  test-and-deploy:
+    jobs:
+      - test
